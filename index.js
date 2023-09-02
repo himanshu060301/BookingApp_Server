@@ -28,10 +28,10 @@ mongoose.connection.on("disconnected",()=>{
 app.use(cookieParser());
 app.use(express.json()); 
 
-app.use("/api/auth", authRoute);
-app.use("/api/users", usersRoute);
-app.use("/api/hotels", hotelsRoute);
-app.use("/api/rooms", roomsRoute);
+app.use("/server/auth", authRoute);
+app.use("/server/users", usersRoute);
+app.use("/server/hotels", hotelsRoute);
+app.use("/server/rooms", roomsRoute);
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500;
