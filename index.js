@@ -6,6 +6,7 @@ import usersRoute from './routes/users.js';
 import hotelsRoute from './routes/hotels.js';
 import roomsRoute from './routes/rooms.js';
 import cookieParser from 'cookie-parser';
+
 const PORT=process.env.PORT || 8800;
 
 const app=express();
@@ -46,5 +47,5 @@ app.use((err,req,res,next)=>{
 
 app.listen(PORT,()=>{
     connect()
-    console.log("Connected to port 8800.");
+    console.log("Connected to port 8800");
 });

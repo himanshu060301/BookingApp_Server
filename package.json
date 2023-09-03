@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "build": "npm run build"
+    "start": "node index.js"
   },
   "engines": { 
     "node": ">=14.20.1" 
