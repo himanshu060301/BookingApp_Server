@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoute from './routes/auth.js';
@@ -6,8 +7,6 @@ import usersRoute from './routes/users.js';
 import hotelsRoute from './routes/hotels.js';
 import roomsRoute from './routes/rooms.js';
 import cookieParser from 'cookie-parser';
-
-const PORT=process.env.PORT || 8800;
 
 const app=express();
 dotenv.config();
@@ -26,6 +25,14 @@ mongoose.connection.on("disconnected",()=>{
 })
 
 //middlewares
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+    })
+);
+
 app.use(cookieParser());
 app.use(express.json()); 
 
@@ -45,7 +52,9 @@ app.use((err,req,res,next)=>{
     });
 })
 
+const PORT=process.env.PORT || 8800;
+
 app.listen(PORT,()=>{
     connect()
-    console.log("Connected to port 8800");
+    console.log(`Connected to port ${PORT}`);
 });
