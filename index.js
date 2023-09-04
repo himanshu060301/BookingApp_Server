@@ -24,7 +24,12 @@ mongoose.connection.on("disconnected",()=>{
     console.log("mongoDB disconnected");
 })
 
+
 //middlewares
+app.use(cookieParser());
+app.use(express.json()); 
+app.use(express.urlencoded({extended:false}));
+
 app.use(
     cors({
         origin: "https://bookingapp-frontend.onrender.com",
@@ -32,9 +37,6 @@ app.use(
         credentials: true,
     })
 );
-
-app.use(cookieParser());
-app.use(express.json()); 
 
 app.use("/server/auth", authRoute);
 app.use("/server/users", usersRoute);
