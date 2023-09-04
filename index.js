@@ -27,7 +27,7 @@ mongoose.connection.on("disconnected",()=>{
 //middlewares
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'https://localhost:3000'],
+        origin: "https://bookingapp-frontend.onrender.com",
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     })
