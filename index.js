@@ -11,6 +11,8 @@ import cookieParser from 'cookie-parser';
 const app=express();
 dotenv.config();
 
+const allowedOrigins = ['https://chipper-cajeta-929ae4.netlify.app/', 'https://another-allowed-origin.com'];
+
 const connect=async()=>{
     try {
         await mongoose.connect(process.env.MONGO);
@@ -30,13 +32,29 @@ app.use(cookieParser());
 app.use(express.json()); 
 app.use(express.urlencoded({extended:false}));
 
-app.use(
-    cors({
-        origin: "https://bookingapp-frontend.onrender.com",
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        credentials: true,
-    })
-);
+app.use(cors({
+  origin: function(origin, callback) {
+    // Check if the origin is allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Check if the origin is allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use("/server/auth", authRoute);
 app.use("/server/users", usersRoute);
