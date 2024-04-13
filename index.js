@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoute from './routes/auth.js';
@@ -7,24 +6,13 @@ import usersRoute from './routes/users.js';
 import hotelsRoute from './routes/hotels.js';
 import roomsRoute from './routes/rooms.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+
+const PORT=process.env.PORT || 8800;
 
 const app=express();
+app.use(cors());
 dotenv.config();
-
-const allowedOrigins = ['https://wonderful-shortbread-198b14.netlify.app/', 'https://another-allowed-origin.com'];
-
-const corsOptions = {
-  origin: function(origin, callback) {
-    // Check if the origin is allowed
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
 
 const connect=async()=>{
     try {
@@ -39,16 +27,14 @@ mongoose.connection.on("disconnected",()=>{
     console.log("mongoDB disconnected");
 })
 
-
 //middlewares
 app.use(cookieParser());
 app.use(express.json()); 
-app.use(express.urlencoded({extended:false}));
 
-app.use("/server/auth", authRoute);
-app.use("/server/users", usersRoute);
-app.use("/server/hotels", hotelsRoute);
-app.use("/server/rooms", roomsRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/hotels", hotelsRoute);
+app.use("/api/rooms", roomsRoute);
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500;
@@ -61,9 +47,7 @@ app.use((err,req,res,next)=>{
     });
 })
 
-const PORT=process.env.PORT || 8800;
-
 app.listen(PORT,()=>{
     connect()
-    console.log(`Connected to port ${PORT}`);
+    console.log("Connected to port 8800");
 });
