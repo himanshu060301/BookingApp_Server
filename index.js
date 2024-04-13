@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 const app=express();
 dotenv.config();
 
-const allowedOrigins = ['https://chipper-cajeta-929ae4.netlify.app/', 'https://another-allowed-origin.com'];
+const allowedOrigins = ['https://wonderful-shortbread-198b14.netlify.app/', 'https://another-allowed-origin.com'];
 
 const connect=async()=>{
     try {
