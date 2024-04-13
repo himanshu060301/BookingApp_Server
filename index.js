@@ -13,6 +13,19 @@ dotenv.config();
 
 const allowedOrigins = ['https://wonderful-shortbread-198b14.netlify.app/', 'https://another-allowed-origin.com'];
 
+const corsOptions = {
+  origin: function(origin, callback) {
+    // Check if the origin is allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 const connect=async()=>{
     try {
         await mongoose.connect(process.env.MONGO);
@@ -31,30 +44,6 @@ mongoose.connection.on("disconnected",()=>{
 app.use(cookieParser());
 app.use(express.json()); 
 app.use(express.urlencoded({extended:false}));
-
-app.use(cors({
-  origin: function(origin, callback) {
-    // Check if the origin is allowed
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
-
-app.use(cors({
-  origin: function(origin, callback) {
-    // Check if the origin is allowed
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 app.use("/server/auth", authRoute);
 app.use("/server/users", usersRoute);
